@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media_app/core/utils.dart';
 import 'package:social_media_app/features/auth/domain/usecases/register_use_case.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_event.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_state.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_event.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterUseCase registerUseCase;
@@ -23,7 +24,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       );
       emit(RegisterSuccess());
     } catch (e) {
-      emit(RegisterFailure(message: e.toString()));
+      emit(RegisterFailure(message: formatError(e)));
     }
   }
 }

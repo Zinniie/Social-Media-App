@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:social_media_app/features/auth/domain/usecases/register_use_case.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_bloc.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_event.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_state.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_bloc.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_event.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_state.dart';
 
 import '../../data/repository/MockAuthRepository.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_bloc.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_event.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/register_state.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_bloc.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_event.dart';
+import 'package:social_media_app/features/auth/presentation/register/bloc/register_state.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
