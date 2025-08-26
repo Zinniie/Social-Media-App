@@ -6,20 +6,26 @@ import 'package:social_media_app/features/auth/presentation/register/bloc/regist
 import 'package:social_media_app/features/auth/presentation/register/bloc/register_state.dart';
 
 import '../../data/repository/MockAuthRepository.dart';
+import '../../domain/services/mock_user_session_service.dart';
 
 // UI -> RegisterEventForSubmitting(event) -> LoadingState(1) || SuccessState(2) -> UI how  bloc woprks
 void main() {
   group('RegisterBloc test', () {
     late RegisterBloc registerBloc;
     late RegisterBloc registerBlocWithRepositoryError;
+      MockUserSessionService mockUserSessionService = MockUserSessionService();
+
 
     setUp(() {
       registerBloc = RegisterBloc(
-          registerUseCase:
-              RegisterUseCase(authRepository: MockAuthRepository()));
-                registerBlocWithRepositoryError = RegisterBloc(
-          registerUseCase:
-              RegisterUseCase(authRepository: MockAuthWithErrorRepository()));
+        registerUseCase: RegisterUseCase(authRepository: MockAuthRepository()),
+        userSessionService: mockUserSessionService,
+      );
+      registerBlocWithRepositoryError = RegisterBloc(
+        registerUseCase:
+            RegisterUseCase(authRepository: MockAuthWithErrorRepository()),
+        userSessionService: mockUserSessionService,
+      );
     });
     blocTest(
       'emit [RegisterLoading, RegisterSuccess] when register is successful',
@@ -35,7 +41,7 @@ void main() {
       ],
     );
 
-     blocTest(
+    blocTest(
       'emit [RegisterLoading, RegisterFailure] when email is wrong',
       build: () => registerBloc,
       act: (bloc) => bloc.add(RegisterSubmitted(
@@ -48,7 +54,7 @@ void main() {
         isA<RegisterFailure>(),
       ],
     );
-     blocTest(
+    blocTest(
       'emit [RegisterLoading, RegisterFailure] when repository return an error',
       build: () => registerBlocWithRepositoryError,
       act: (bloc) => bloc.add(RegisterSubmitted(

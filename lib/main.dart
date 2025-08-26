@@ -1,38 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:social_media_app/features/auth/data/datasources/session_local_data_source.dart';
 import 'package:social_media_app/features/auth/data/repository/MockAuthRepository.dart';
+import 'package:social_media_app/features/auth/domain/services/user_session_service.dart';
 import 'package:social_media_app/features/auth/domain/usecases/login_use_case.dart';
 import 'package:social_media_app/features/auth/domain/usecases/register_use_case.dart';
 import 'package:social_media_app/features/auth/presentation/login/bloc/login_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/login/screens/login_page.dart';
 import 'package:social_media_app/features/auth/presentation/register/bloc/register_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/register/screens/register_page.dart';
+import 'package:social_media_app/features/splash/splash_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+
+  @override
+  
   Widget build(BuildContext context) {
+      final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
+    final SessionLocalDataSource sessionLocalDataSource =
+        SessionLocalDataSourceImpl(secureStorage: secureStorage);
+
+    final UserSessionService userSessionService =
+        UserSessionService(sessionLocalDataSource: sessionLocalDataSource);
     return MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (_) => RegisterBloc(
-              registerUseCase: RegisterUseCase(
-                authRepository: MockAuthRepository(),
-              ),
-            ),
+                registerUseCase: RegisterUseCase(
+                  authRepository: MockAuthRepository(),
+                ),
+                userSessionService: userSessionService),
           ),
           BlocProvider(
             create: (_) => LoginBloc(
-              loginUseCase: LoginUseCase(
-                authRepository: MockAuthRepository(),
-              ),
-            ),
+                loginUseCase: LoginUseCase(
+                  authRepository: MockAuthRepository(),
+                ),
+                userSessionService: userSessionService),
           ),
         ],
         child: MaterialApp(
@@ -42,11 +61,12 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          initialRoute: '/login',
+         // initialRoute: '/login',
+        home: SplashPage(userSessionService: userSessionService),
           routes: {
-            '/register': (context) => RegisterPage(),
-            '/login': (context) => LoginPage(),
-            '/home': (context) => HomePage(),
+            '/register': (context) => const RegisterPage(),
+            '/login': (context) => const LoginPage(),
+            '/home': (context) =>const HomePage(),
           },
         ));
   }

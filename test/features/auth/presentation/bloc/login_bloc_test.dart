@@ -6,47 +6,60 @@ import 'package:social_media_app/features/auth/presentation/login/bloc/login_blo
 import 'package:social_media_app/features/auth/presentation/login/bloc/login_event.dart';
 import 'package:social_media_app/features/auth/presentation/login/bloc/login_state.dart';
 
+import '../../domain/services/mock_user_session_service.dart';
+
 void main() {
   group('LoginBloc test', () {
     late LoginBloc loginBloc;
     late LoginBloc loginBlocWithRepositoryError;
+     MockUserSessionService mockUserSessionService = MockUserSessionService();
 
     setUp(() {
       loginBloc = LoginBloc(
-          loginUseCase: LoginUseCase(authRepository: MockAuthRepository()));
+        loginUseCase: LoginUseCase(
+          authRepository: MockAuthRepository(),
+        ),
+        userSessionService: mockUserSessionService,
+      );
       loginBlocWithRepositoryError = LoginBloc(
-          loginUseCase:
-              LoginUseCase(authRepository: MockAuthWithErrorRepository()));
+        loginUseCase: LoginUseCase(
+          authRepository: MockAuthWithErrorRepository(),
+        ),
+        userSessionService: mockUserSessionService,
+      );
     });
 
     blocTest(
       'emit [LoginLoading, LoginSuccess] when login is successful',
       build: () => loginBloc,
-      act: (bloc) =>
-          bloc.add(LoginSubmitted(email: 'ezinne@gmail.com', password: '1234',)),
+      act: (bloc) => bloc.add(LoginSubmitted(
+        email: 'ezinne@gmail.com',
+        password: '1234',
+      )),
       expect: () => [
         LoginLoading(),
         LoginSuccess(),
       ],
     );
 
-     blocTest(
+    blocTest(
       'emit [LoginLoading, LoginFailure] when paswword is wrong',
       build: () => loginBloc,
-      act: (bloc) =>
-          bloc.add(LoginSubmitted(email: 'ezinne@gmail.com', password: '0',)),
+      act: (bloc) => bloc.add(LoginSubmitted(
+        email: 'ezinne@gmail.com',
+        password: '0',
+      )),
       expect: () => [
         LoginLoading(),
-          isA< LoginFailure>(),
+        isA<LoginFailure>(),
       ],
     );
 
-      blocTest(
+    blocTest(
       'emit[LoginLoading, LoginFailure] when repository return an error',
       build: () => loginBlocWithRepositoryError,
       act: (bloc) => bloc.add(LoginSubmitted(
         email: 'ezinne@gmail.com',
-    
         password: '1234',
       )),
       expect: () => [
