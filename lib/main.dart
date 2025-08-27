@@ -10,6 +10,10 @@ import 'package:social_media_app/features/auth/presentation/login/bloc/login_blo
 import 'package:social_media_app/features/auth/presentation/login/screens/login_page.dart';
 import 'package:social_media_app/features/auth/presentation/register/bloc/register_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/register/screens/register_page.dart';
+import 'package:social_media_app/features/feed/data/repository/mock_posts_repository.dart';
+import 'package:social_media_app/features/feed/domain/usecases/fetch_posts_use_case.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed_bloc.dart';
+import 'package:social_media_app/features/feed/presentation/screens/feed_page.dart';
 import 'package:social_media_app/features/splash/splash_page.dart';
 
 void main() async{
@@ -53,6 +57,13 @@ class _MyAppState extends State<MyApp> {
                 ),
                 userSessionService: userSessionService),
           ),
+          BlocProvider(
+            create: (_) => FeedBloc(
+                fetchPostsUseCase: FetchPostsUseCase(
+                  postRepository: MockPostsRepository(),
+                ),
+              ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -66,7 +77,7 @@ class _MyAppState extends State<MyApp> {
           routes: {
             '/register': (context) => const RegisterPage(),
             '/login': (context) => const LoginPage(),
-            '/home': (context) =>const HomePage(),
+            '/home': (context) =>const FeedPage(),
           },
         ));
   }
