@@ -11,8 +11,10 @@ import 'package:social_media_app/features/auth/presentation/login/screens/login_
 import 'package:social_media_app/features/auth/presentation/register/bloc/register_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/register/screens/register_page.dart';
 import 'package:social_media_app/features/feed/data/repository/mock_posts_repository.dart';
+import 'package:social_media_app/features/feed/domain/usecases/create_posts_use_case.dart';
 import 'package:social_media_app/features/feed/domain/usecases/fetch_posts_use_case.dart';
-import 'package:social_media_app/features/feed/presentation/bloc/feed_bloc.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed/feed_bloc.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/post/create_post_bloc.dart';
 import 'package:social_media_app/features/feed/presentation/screens/feed_page.dart';
 import 'package:social_media_app/features/splash/splash_page.dart';
 
@@ -64,6 +66,13 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
           ),
+          BlocProvider(
+            create: (_) => CreatePostBloc(
+              createPostUseCase: CreatePostUseCase(
+                postRepository: MockPostsRepository(),
+              ),
+            ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -72,8 +81,8 @@ class _MyAppState extends State<MyApp> {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-         // initialRoute: '/login',
-        home: SplashPage(userSessionService: userSessionService),
+         initialRoute: '/login',
+        // home: SplashPage(userSessionService: userSessionService),
           routes: {
             '/register': (context) => const RegisterPage(),
             '/login': (context) => const LoginPage(),

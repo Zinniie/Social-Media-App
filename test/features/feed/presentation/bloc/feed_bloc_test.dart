@@ -2,9 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:social_media_app/features/feed/domain/usecases/fetch_posts_use_case.dart';
-import 'package:social_media_app/features/feed/presentation/bloc/feed_bloc.dart';
-import 'package:social_media_app/features/feed/presentation/bloc/feed_event.dart';
-import 'package:social_media_app/features/feed/presentation/bloc/feed_state.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed/feed_bloc.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed/feed_event.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed/feed_state.dart';
 
 import '../../data/repository/mock_posts_repository.dart';
 

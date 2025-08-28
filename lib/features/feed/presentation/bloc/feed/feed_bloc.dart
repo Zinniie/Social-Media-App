@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/utils.dart';
 import 'package:social_media_app/features/feed/domain/usecases/fetch_posts_use_case.dart';
-import 'package:social_media_app/features/feed/presentation/bloc/feed_event.dart';
-import 'package:social_media_app/features/feed/presentation/bloc/feed_state.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed/feed_event.dart';
+import 'package:social_media_app/features/feed/presentation/bloc/feed/feed_state.dart';
 
 class FeedBloc extends Bloc<FeedEvent, FeedState> {
   FetchPostsUseCase fetchPostsUseCase;
